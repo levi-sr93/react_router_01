@@ -1,6 +1,7 @@
 import React from 'react';
-
 import {connect} from 'react-redux'
+
+import {deleteCard} from '../actions/cardActions'
 
 class Card extends React.Component {
 
@@ -46,7 +47,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    deleteCard: (id) => {dispatch({type: 'DELETE_CARD', id: id})} //we have access to the dispatch because of connect function
+    deleteCard: (id) => {dispatch(deleteCard(id))} //we have access to the dispatch because of connect function
   }
 }
 
