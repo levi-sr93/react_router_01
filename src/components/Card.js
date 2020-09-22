@@ -1,16 +1,15 @@
 import React from 'react';
 import {connect} from 'react-redux'
 
-import {deleteCard} from '../actions/cardActions'
+import {deleteCard, fetchUsers} from '../actions/cardActions'
 
 class Card extends React.Component {
 
   // state = {user: ''}
   
-  // componentDidMount() {
-  //     let user = this.props.match.params.user
-  //     this.setState({user})
-  // }
+  componentDidMount() {
+      this.props.fetchUsers()
+  }
 
   onButtonClick = () => {
     let id = this.props.card.id;
@@ -22,17 +21,26 @@ class Card extends React.Component {
 
   render(){
     // const {user} = this.state
-    console.log(this.props)
+    // console.log(this.props.users)
+
+    const {users} = this.props;
+
     const {title, body} = this.props.card;
     return (
-      <div className="ui raised very padded text container segment"
-            style={{ marginTop: '80px' }}>
-            <h3 className='ui header'>{title}</h3>
-            <p>{body}</p>
+      users.map(user => {
+        return (
+          <div className="ui raised very padded text container segment"
+            style={{ marginTop: '80px' }}
+            key={user.id}
+            >
+            <h3 className='ui header'>{user.name}</h3>
+            <p>{user.email}</p>
             <button className='ui primary right floated button' onClick={this.onButtonClick}>
               Delete
             </button>
-      </div>
+        </div>
+        )
+      })
     )
   }
 }
@@ -41,13 +49,15 @@ class Card extends React.Component {
 const mapStateToProps = (state, ownProps) => {
     let title = ownProps.match.params.user; //this is a route param
     return {
-      card: state.cards.find(card => card.title === title)
+      card: state.cards.find(card => card.title === title),
+      users: state.users
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    deleteCard: (id) => {dispatch(deleteCard(id))} //we have access to the dispatch because of connect function
+    deleteCard: (id) => {dispatch(deleteCard(id))}, //we have access to the dispatch because of connect function
+    fetchUsers: () => {dispatch(fetchUsers())}
   }
 }
 
