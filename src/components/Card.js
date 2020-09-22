@@ -14,6 +14,9 @@ class Card extends React.Component {
   onButtonClick = () => {
     let id = this.props.card.id;
     this.props.deleteCard(id)
+
+    //redirecting user to contact page after deleting
+    this.props.history.push('/contact')
   }
 
   render(){
@@ -43,7 +46,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    deleteCard: (id) => {dispatch({type: 'DELETE_CARD', id: id})} 
+    deleteCard: (id) => {dispatch({type: 'DELETE_CARD', id: id})} //we have access to the dispatch because of connect function
   }
 }
 
